@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
 
 const { GITHUB_RUN_ID, GITHUB_REF_NAME } = process.env;
 
