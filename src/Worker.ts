@@ -20,23 +20,23 @@ export default class Worker implements EventTarget {
   }
 
 
-  set onmessage(onmessage: () => unknown) {
+  set onmessage(onmessage: (...args: unknown[]) => unknown) {
     this.addEventListener('message', onmessage);
   }
 
-  set onerror(onerror: () => unknown) {
+  set onerror(onerror: (...args: unknown[]) => unknown) {
     this.addEventListener('error', onerror);
   }
 
-  addEventListener = (event: string, listener: () => unknown) => {
+  addEventListener = (event: string, listener: (...args: unknown[]) => unknown) => {
     if (this.instance) this.instance.on(event, listener);
   }
 
-  addEventListenerOnce = (event: string, listener: () => unknown) => {
+  addEventListenerOnce = (event: string, listener: (...args: unknown[]) => unknown) => {
     if (this.instance) this.instance.once(event, listener);
   }
 
-  removeEventListener = (event: string, listener: () => unknown) => {
+  removeEventListener = (event: string, listener: (...args: unknown[]) => unknown) => {
     if (this.instance && this.instance.off) this.instance.off(event, listener);
   }
 
