@@ -18,19 +18,25 @@ export default class Worker implements EventTarget {
   }
 
   addEventListener = (event: string, listener: (...args: unknown[]) => unknown) => {
-    if (this.instance.exitCode !== null) this.instance.on(event, listener);
+    if (this.instance.exitCode === null) {
+      this.instance.on(event, listener);
+    }
   };
 
   addEventListenerOnce = (event: string, listener: (...args: unknown[]) => unknown) => {
-    if (this.instance.exitCode !== null) this.instance.once(event, listener);
+    if (this.instance.exitCode === null) {
+      this.instance.once(event, listener);
+    }
   };
 
   removeEventListener = (event: string, listener: (...args: unknown[]) => unknown) => {
-    if (this.instance.exitCode !== null && this.instance.off) this.instance.off(event, listener);
+    if (this.instance.exitCode === null) {
+      this.instance.off(event, listener);
+    }
   };
 
   dispatchEvent = ({ type, payload = '' }: Event & { payload?: Serializable }) => {
-    if (this.instance.exitCode !== null && this.instance.emit) {
+    if (this.instance.exitCode === null) {
       return this.instance.emit(type, payload);
     }
 
@@ -38,10 +44,14 @@ export default class Worker implements EventTarget {
   };
 
   terminate = () => {
-    if (this.instance.exitCode !== null) this.instance.kill('SIGINT');
+    if (this.instance.exitCode === null) {
+      this.instance.kill('SIGINT');
+    }
   };
 
   postMessage = (message: Serializable, cb: (error: Error | null) => void = () => {}) => {
-    if (this.instance.exitCode !== null && this.instance.send) this.instance.send(message, cb);
+    if (this.instance.exitCode === null) {
+      this.instance.send(message, cb);
+    }
   };
 }
